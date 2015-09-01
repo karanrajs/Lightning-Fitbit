@@ -1,0 +1,255 @@
+<aura:component controller="fitbitController" implements="force:appHostable,flexipage:availableForAllPageTypes">
+    <ltng:require styles="/resource/SLDS080/assets/styles/salesforce-lightning-design-system-vf.css" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute type="Object" name="User" />
+    <aura:attribute type="Object[]" name="friends" />
+    <aura:attribute type="Object" name="todayData" />
+    <aura:attribute type="Object[]" name="badges" />  
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">    
+        <head>
+        </head>    
+        <body>    
+            <!-- REQUIRED SLDS WRAPPER -->
+            <div class="slds">    
+                <!-- MASTHEAD -->
+                <!-- / MASTHEAD -->    
+                <!-- PAGE HEADER -->
+                <div>
+                <div class="slds-page-header" role="banner">
+                    <!-- PAGE HEADER TOP ROW -->
+                    <div class="slds-grid">
+                        <!-- PAGE HEADER / ROW 1 / COLUMN 1 -->
+                        <div class="slds-col">
+                            <!-- HEADING AREA -->
+                            <!-- MEDIA OBJECT = FIGURE + BODY -->
+                            <div class="slds-media">
+                                <div class="slds-media__figure">
+                                    <span class="slds-avatar slds-avatar--large">
+                                        <img src="{!v.User.avatar150}" alt="" />
+                                    </span>
+                                </div>
+                                <div class="slds-media__body">
+                                    <p class="slds-text-heading--label">FitBit Name</p>
+                                    <h1 class="slds-text-heading--medium">{!v.User.fullName}</h1>
+                                </div>
+                            </div>
+                            <!-- / MEDIA OBJECT -->
+                            <!-- HEADING AREA -->
+                        </div>
+                        <!-- / PAGE HEADER / ROW 1 / COLUMN 1 -->
+                        <!-- PAGE HEADER / ROW 1 / COLUMN 2 -->
+                        <div class="slds-col slds-no-flex slds-align-middle">
+                            <div class="slds-button-group" role="group">
+                                <button class="slds-button slds-button--neutral" onclick="{!c.doInit}">
+                                    Refresh
+                                </button>
+                            </div>
+                        </div>
+                        <!-- / PAGE HEADER / ROW 1 / COLUMN 2 -->
+                    </div>
+                    <!-- / PAGE HEADER TOP ROW -->
+                    <!-- PAGE HEADER DETAIL ROW -->
+                    <div class="slds-grid slds-page-header__detail-row">
+                        <!-- PAGE HEADER / ROW 2 / COLUMN 1 -->
+                        <div class="slds-col--padded slds-size--1-of-4">
+                            <dl>
+                                <dt>
+                                    <p class="slds-text-heading--label slds-truncate">About Me</p>
+                                </dt>
+                                <dd>
+                                    <p class="slds-text-body--regular slds-truncate">{!v.User.aboutMe}</p>
+                                </dd>
+                            </dl>
+                        </div>
+                        <!-- PAGE HEADER / ROW 2 / COLUMN 2 -->
+                        <div class="slds-col--padded slds-size--1-of-4">
+                            <dl>
+                                <dt>
+                                    <p class="slds-text-heading--label slds-truncate">Avg. Daily Steps</p>
+                                </dt>
+                                <p class="slds-text-body--regular slds-truncate">{!v.User.averageDailySteps}</p>
+                            </dl>
+                        </div>
+                        <!-- PAGE HEADER / ROW 2 / COLUMN 3 -->
+                        <div class="slds-col--padded slds-size--1-of-4">
+                            <dl>
+                                <dt>
+                                    <p class="slds-text-heading--label slds-truncate">Height</p>
+                                </dt>
+                                <p class="slds-text-body--regular slds-truncate">{!v.User.height}</p>
+                            </dl>
+                        </div>
+                        <!-- PAGE HEADER / ROW 2 / COLUMN 4 -->
+                        <div class="slds-col--padded slds-size--1-of-4">
+                            <dl>
+                                <dt>
+                                    <p class="slds-text-heading--label slds-truncate">Weight</p>
+                                </dt>
+                                <p class="slds-text-body--regular slds-truncate">{!v.User.weight}</p>
+                            </dl>
+                        </div>
+                    </div>
+                    <!-- / PAGE HEADER DETAIL ROW -->
+                </div>
+                <!-- / PAGE HEADER -->
+                <center><ui:spinner aura:id="spinner"/></center>
+                <!-- PRIMARY CONTENT WRAPPER -->
+                <div class="myapp">
+                    <!-- RELATED LIST CARDS-->
+                    <div class="slds-grid slds-m-top--large">
+                        <!-- MAIN CARD -->
+                        <div class="slds-col slds-col-rule--right slds-p-right--large slds-size--8-of-12">
+                            <div class="slds-card">
+                                <header class="slds-card__header slds-grid">
+                                    <div class="slds-col slds-media slds-media--center">
+                                        <div class="slds-media__figure">
+                                            <div aura:id="svg_friends">
+                                                <![CDATA[
+     												<svg aria-hidden="true" class="slds-icon slds-icon--small slds-icon-text-default">
+         												<use xlink:href="/resource/SLDS080/assets/icons/action-sprite/svg/symbols.svg#new_group"></use>
+      												</svg>
+     											]]>    
+                                            </div>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h3 class="slds-text-heading--small">Leaderboard</h3>
+                                        </div>
+                                    </div>
+                                </header>
+                                <!-- CARD BODY = TABLE -->
+                                <section class="slds-card__body">
+                                    <div class="slds-scrollable--x">
+                                        <table class="slds-table slds-table--bordered slds-max-medium-table--stacked-horizontal">
+                                            <thead>
+                                                <tr class="slds-no-hover">
+                                                    <th class="slds-text-heading--label slds-size--1-of-6" scope="col">Photo</th>
+                                                    <th class="slds-text-heading--label slds-size--1-of-4" scope="col">Name</th>
+                                                    <th class="slds-text-heading--label slds-size--1-of-4" scope="col">Steps</th>
+                                                    <th class="slds-text-heading--label slds-size--1-of-4" scope="col">Avergae Steps</th>
+                                                    <th class="slds-text-heading--label slds-size--1-of-4" scope="col">Rank</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <aura:iteration items="{!v.friends}" var="friend">
+                                                    <tr class="slds-hint-parent">           
+                                                        <td class="slds-size--1-of-8" data-label="Name"><span class="slds-avatar slds-avatar--circle slds-avatar--small"><img src="{!friend.user.avatar150}" alt="" height="50" width="50"/></span> </td>
+                                                        <td class="slds-size--1-of-4" data-label="Name">{!friend.user.displayName}</td>
+                                                        <td class="slds-size--1-of-4" data-label="Avg. Daily Steps">{!friend.summary.steps}</td>
+                                                        <td class="slds-size--1-of-4" data-label="Height">{!friend.average.steps}</td>
+                                                        <td class="slds-size--1-of-4" data-label="TimeZone">{!friend.rank.steps}</td>     
+                                                    </tr>
+                                                </aura:iteration>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </section>
+                                <!-- / CARD BODY = SECTION + TABLE -->
+                            </div>
+                        </div>
+                        <!-- / MAIN CARD -->
+                        <!-- COMPACT CARD -->
+                        <div class="slds-col slds-p-left--large slds-size--4-of-12">
+                            <div class="slds-card">
+                                <header class="slds-card__header">
+                                    <div class="slds-media slds-media--center">
+                                        <div class="slds-media__figure">
+                                            <div aura:id="svg_today">
+                                                <![CDATA[
+     												<svg aria-hidden="true" class="slds-icon slds-icon--small slds-icon-text-default">
+         												<use xlink:href="/resource/SLDS080/assets/icons/action-sprite/svg/symbols.svg#priority"></use>
+       												</svg>
+     											]]>  
+                                            </div>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h3 class="slds-text-heading--small">Today Summary</h3>
+                                        </div>
+                                    </div>
+                                </header>
+                                <section class="slds-card__body">
+                                    <!-- LIST WITH ONE ITEM -->
+                                    <ul>
+                                        <li class="slds-tile slds-hint-parent">
+                                            <div class="slds-text-heading--small">Steps : {!v.todayData.summary.steps}</div>
+                                            <div class="slds-text-heading--small">Distances :  {!v.todayData.summary.distances[0].distance} </div>
+                                            <div class="slds-text-heading--small">Calories : {!v.todayData.summary.caloriesOut}</div>
+                                            <div class="slds-text-heading--small">Floors : {!v.todayData.summary.floors}</div>
+                                        </li>
+                                    </ul>
+                                    <!-- LIST WITH ONE ITEM -->
+                                </section>
+                            </div>
+                            <div class="slds-card">
+                                <header class="slds-card__header">
+                                    <div class="slds-media slds-media--center">
+                                        <div class="slds-media__figure">
+                                            <div aura:id="svg_badges">
+                                                <![CDATA[
+     												<svg aria-hidden="true" class="slds-icon slds-icon--small slds-icon-text-default">
+         												<use xlink:href="/resource/SLDS080/assets/icons/action-sprite/svg/symbols.svg#new_custom48"></use>
+       												</svg>
+     											]]>  
+                                            </div>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h3 class="slds-text-heading--small">My Badges</h3>
+                                        </div>
+                                    </div>
+                                </header>
+                                <section class="slds-card__body">
+                                    <!-- LIST WITH ONE ITEM -->
+                                    <ul>
+                                        <li class="slds-tile slds-hint-parent">
+                                            <aura:iteration items="{!v.badges}" var="badge">
+                                                <span class="slds-avatar slds-avatar--medium">
+                                                    <img src="{!badge.image50px}" alt="" title="{!badge.badgeType}" />
+                                                </span>
+                                            </aura:iteration>
+                                        </li>
+                                    </ul>
+                                    <!-- LIST WITH ONE ITEM -->
+                                </section>
+                            </div>
+                            <div class="slds-card">
+                                <header class="slds-card__header">
+                                    <div class="slds-media slds-media--center">
+                                        <div class="slds-media__figure">
+                                            <div aura:id="svg_goal">
+                                                <![CDATA[
+     												<svg aria-hidden="true" class="slds-icon slds-icon--small slds-icon-text-default">
+         												<use xlink:href="/resource/slds080/assets/icons/action-sprite/svg/symbols.svg#goal"></use>
+      												</svg>
+     											]]>  
+                                            </div>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h3 class="slds-text-heading--small">My Daily Goals</h3>
+                                        </div>
+                                    </div>
+                                </header>
+                                <section class="slds-card__body">
+                                    <!-- LIST WITH ONE ITEM -->
+                                    <ul>
+                                        <li class="slds-tile slds-hint-parent">
+                                            <div class="slds-text-heading--small">Steps : {!v.todayData.goals.steps}</div>
+                                            <div class="slds-text-heading--small">Distances :  {!v.todayData.goals.distance} </div>
+                                            <div class="slds-text-heading--small">Calories : {!v.todayData.goals.caloriesOut}</div>
+                                            <div class="slds-text-heading--small">Floors : {!v.todayData.goals.steps}</div>
+                                        </li>
+                                    </ul>
+                                    <!-- LIST WITH ONE ITEM -->
+                                </section>
+                            </div>
+                        </div>
+                        <!-- / COMPACT CARD -->
+                    </div>
+                    <!-- / RELATED LIST CARDS -->
+                </div>
+                <!-- / PRIMARY CONTENT WRAPPER -->
+                    </div>
+            </div>
+        </body>    
+    </html>  
+</aura:component>
