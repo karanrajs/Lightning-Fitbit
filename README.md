@@ -1,5 +1,5 @@
 # Lightning-Fitbit
-A Lightning application to integrate with Fitbit device. This simple lightning app will display your daily activities, goals, badges and leaderboard. The UI is designed using Lightning Design System to get the salesforce native Lightning experiences
+A Salesforce Lightning application to integrate with Fitbit device. This simple lightning app will display your daily activities, goals, badges and leaderboard. The UI is designed using Lightning Design System to get the salesforce native Lightning experiences
 
   ![alt tag](https://raw.github.com/Karanraj/Lightning-Fitbit/master/img/LightningFitbit.png)
 ## Register Fitbit app
