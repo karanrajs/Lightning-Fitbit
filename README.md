@@ -1,5 +1,6 @@
 # Lightning-Fitbit
 A Lightning application to integrate with Fitbit device. This simple lightning app will display your daily activities, goals, badges and leaderboard. The UI is designed using Lightning Design System to get the salesforce native Lightning experiences
+
   ![alt tag](https://raw.github.com/Karanraj/Lightning-Fitbit/master/img/LightningFitbit.png)
 ## Register Fitbit app
 * Go to https://dev.fitbit.com/apps
@@ -42,10 +43,10 @@ Follow the below steps to create named credential
 * In the Authentication Provider click the lookup icon and selected [select or selected] the Auth. provider which we created in the previous step
 * Enable the checkbox "Start Authentication Flow on Save"
 * Click Save
-* Now it will open the Fitbit login page.
+* Now it will open the Fitbit login page
 * Login with your Fitbit credentials and allow the access
 
-  ![alt tag](https://raw.github.com/Karanraj/Lightning-Fitbit/master/img/NamedCrendential.png)
+  ![alt tag](https://raw.github.com/Karanraj/Lightning-Fitbit/master/img/NamedCredential.png)
 
 # Related Resources
 * [Fitbit API docs](https://dev.fitbit.com/docs/basics/)
