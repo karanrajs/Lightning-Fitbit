@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <AuthProvider xmlns="http://soap.sforce.com/2006/04/metadata">
     <authorizeUrl>https://www.fitbit.com/oauth2/authorize</authorizeUrl>
-    <consumerKey>XXXX/consumerKey>
-    <consumerSecret>Yxxxxxxxxxxxxxxxxxxxxxzzzzzzzzz</consumerSecret>
+    <consumerKey>[INSERT KEY HERE]</consumerKey>
+    <consumerSecret>[INSERT SECRET HERE]</consumerSecret>
     <defaultScopes>activity profile settings heartrate location nutrition sleep social weight</defaultScopes>
     <friendlyName>Fitbit</friendlyName>
     <includeOrgIdInIdentifier>false</includeOrgIdInIdentifier>

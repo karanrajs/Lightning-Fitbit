@@ -1,40 +1,27 @@
-public class fitbitController {
+public class FitbitController {
     
-    @AuraEnabled public static string getUserDetails(){
-        HttpRequest req = new HttpRequest();
-        Http http = new Http();
-        req.setMethod('GET');    
-        req.setEndpoint('callout:Fitbit/1/user/-/profile.json');
-        HttpResponse res = http.send(req);
-        return res.getBody();
+    @AuraEnabled public static string getUserDetails(){    
+        return getResponseBody('callout:Fitbit/1/user/-/profile.json');
     }
     
-    @AuraEnabled public static string getTodaySummarry(){
-        HttpRequest req = new HttpRequest();
-        Http http = new Http();
-        req.setMethod('GET');    
-        req.setEndpoint('callout:Fitbit/1/user/-/activities/date/today.json');
-        HttpResponse res = http.send(req);
-        return res.getBody();
+    @AuraEnabled public static string getTodaySummarry(){    
+        return getResponseBody('callout:Fitbit/1/user/-/activities/date/today.json');
     }
     
-    @AuraEnabled public static string getFriendsList(){
-        HttpRequest req = new HttpRequest();
-        Http http = new Http();
-        req.setMethod('GET');    
-        req.setEndpoint('callout:Fitbit/1/user/-/friends/leaderboard.json');
-        HttpResponse res = http.send(req);
-        system.debug('Friends List'+res.getBody());
-        return res.getBody();
+    @AuraEnabled public static string getFriendsList(){    
+        return getResponseBody('callout:Fitbit/1/user/-/friends/leaderboard.json');
     }
     
-    @AuraEnabled public static string getMybadges(){
+    @AuraEnabled public static string getMybadges(){    
+        return getResponseBody('callout:Fitbit/1/user/-/badges.json');
+    }
+
+    private static String getResponseBody(String endpoint){
         HttpRequest req = new HttpRequest();
         Http http = new Http();
         req.setMethod('GET');    
-        req.setEndpoint('callout:Fitbit/1/user/-/badges.json');
+        req.setEndpoint(endpoint);
         HttpResponse res = http.send(req);
-        system.debug('Friends List'+res.getBody());
         return res.getBody();
     }
 }
