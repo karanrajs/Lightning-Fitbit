@@ -47,6 +47,12 @@ Follow the below steps to create named credential
 * Login with your Fitbit credentials and allow the access
 
   ![alt tag](https://raw.github.com/Karanraj/Lightning-Fitbit/master/img/NamedCredential.png)
+  
+# Deploy to Salesforce
+<a href="https://githubsfdeploy.herokuapp.com?owner=Karanraj&repo=Lightning-Fitbit">
+  <img alt="Deploy to Salesforce"
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
+</a>
 
 # Related Resources
 * [Fitbit API docs](https://dev.fitbit.com/docs/basics/)
